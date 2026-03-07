@@ -16,7 +16,7 @@ vim.g.neovide_light_angle_degrees = 45
 vim.g.neovide_light_radius = 5
 
 vim.g.neovide_font_features = {
-    ["JetBrainsMono Nerd Font"] = {"-calt", "-liga"}
+    ["JetBrainsMono Nerd Font"] = { "-calt", "-liga" },
 }
 
 vim.g.neovide_floating_shadow = false

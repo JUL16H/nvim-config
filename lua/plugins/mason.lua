@@ -125,20 +125,17 @@ return {
             ["texlab"] = {
                 settings = {
                     texlab = {
-                        -- 禁止 TexLab 自动编译 (交给 VimTeX 处理)
                         build = {
                             onSave = false,
                             forwardSearchAfter = false,
                         },
-                        -- 启用 ChkTeX 进行语法检查 (需要本地安装 chktex)
                         chktex = {
                             onOpenAndSave = true,
                             onEdit = true,
                         },
-                        -- 自动补全引用时的格式
                         bibtex = {
                             formatting = {
-                                citation = "crm", -- common citation format
+                                citation = "crm",
                             },
                         },
                     },

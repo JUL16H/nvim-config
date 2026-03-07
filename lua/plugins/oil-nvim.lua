@@ -23,7 +23,6 @@ return {
                 },
             },
             preview = {
-                -- 你的预览配置保持不变...
                 max_width = 0.9,
                 min_width = { 40, 0.4 },
                 border = "rounded",

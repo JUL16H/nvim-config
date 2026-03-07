@@ -4,7 +4,7 @@ return {
     event = "VeryLazy",
     main = "nvim-treesitter.configs",
     dependencies = {
-        "nvim-treesitter/nvim-treesitter-textobjects", -- 添加此依赖
+        "nvim-treesitter/nvim-treesitter-textobjects",
     },
     opts = {
         ensure_installed = {
@@ -17,27 +17,26 @@ return {
         },
         highlight = { enable = true },
 
-        -- 新增 textobjects 配置
         textobjects = {
             select = {
                 enable = true,
-                lookahead = true, -- 自动跳转到下一个文本对象
+                lookahead = true,
                 keymaps = {
-                    -- 你可以自定义这些触发键
-                    ["af"] = "@function.outer", -- 选中整个函数 (Around Function)
-                    ["if"] = "@function.inner", -- 选中函数体内部 (Inside Function)
-                    ["ac"] = "@class.outer",    -- 选中整个类
-                    ["ic"] = "@class.inner",    -- 选中类内部
-                    ["ai"] = "@conditional.outer", -- 选中 if/else 整个块
-                    ["ii"] = "@conditional.inner", -- 选中 if/else 内部
-                    ["al"] = "@loop.outer",       -- 选中循环块
-                    ["il"] = "@loop.inner",       -- 选中循环内部
+
+                    ["af"] = "@function.outer",
+                    ["if"] = "@function.inner",
+                    ["ac"] = "@class.outer",
+                    ["ic"] = "@class.inner",
+                    ["ai"] = "@conditional.outer",
+                    ["ii"] = "@conditional.inner",
+                    ["al"] = "@loop.outer",
+                    ["il"] = "@loop.inner",
                 },
             },
-            -- 进阶：快速跳转到上一个/下一个函数
+
             move = {
                 enable = true,
-                set_jumps = true, -- 是否在跳转列表中记录 (Ctrl-o/i)
+                set_jumps = true,
                 goto_next_start = {
                     ["]m"] = "@function.outer",
                     ["]]"] = "@class.outer",

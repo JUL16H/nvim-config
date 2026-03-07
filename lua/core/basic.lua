@@ -21,10 +21,10 @@ vim.opt.termguicolors = true
 vim.opt.signcolumn = "yes"
 
 -- 缩进相关
-vim.opt.tabstop = 4      -- 也就是 Tab 键显示的宽度
+vim.opt.tabstop = 4      -- Tab 键显示的宽度
 vim.opt.shiftwidth = 4   -- 自动缩进或手动缩进(>>/<<)的宽度
-vim.opt.expandtab = true -- 【关键】将 Tab 键自动展开为空格
-vim.opt.softtabstop = 4  -- 【建议添加】编辑模式下按退格键(Backspace)一次删除4个空格
+vim.opt.expandtab = true -- 将 Tab 键自动展开为空格
+vim.opt.softtabstop = 4  -- 编辑模式下按退格键(Backspace)一次删除4个空格
 vim.opt.smartindent = true -- 智能缩进
 
 -- 自动加载外部修改
@@ -57,7 +57,7 @@ vim.api.nvim_create_autocmd("FileType", {
     -- formatoptions 参数解释：
     -- r: 插入模式回车自动插入注释
     -- o: 普通模式 'o' 或 'O' 自动插入注释
-    -- c: 当注释超过 textwidth 时自动换行并添加注释符 (如果你也不想要这个，就加上 'c')
+    -- c: 当注释超过 textwidth 时自动换行并添加注释符
 
     -- 使用 remove 确保把这些标志彻底移除
     vim.opt_local.formatoptions:remove({ 'r', 'o', 'c' })

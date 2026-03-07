@@ -28,10 +28,10 @@ return {
                         local reg = vim.fn.reg_recording()
                         if reg == "" then
                             return ""
-                        end -- 不在录制时返回空
-                        return " Rec @" .. reg -- 录制时显示 "Rec @q"
+                        end
+                        return " Rec @" .. reg
                     end,
-                    color = { fg = "#ff9e64", gui = "bold" }, -- 设置醒目的颜色(橙色)
+                    color = { fg = "#ff9e64", gui = "bold" },
                 },
             },
 

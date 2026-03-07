@@ -36,9 +36,7 @@ return {
                 prepend_args = { "--config", "tab_spaces=4" },
             },
 
-            -- === Prettier 配置 (强制 4 空格) ===
             prettier = {
-                -- 保持和你 C++/Lua 一致的 4 空格缩进习惯
                 prepend_args = {
                     "--tab-width",
                     "4",
@@ -51,19 +49,15 @@ return {
                 },
             },
 
-            -- === Python Black 配置 ===
             black = {
-                -- Black 默认行宽是 88，如果你喜欢 100 可以改这里
                 prepend_args = { "--line-length", "100" },
             },
 
-            -- === Python Isort 配置 ===
             isort = {
                 prepend_args = { "--profile", "black", "--line-length", "100" },
             },
 
             xmlformat = {
-                -- 强制 4 空格缩进，与你其他语言保持一致
                 prepend_args = { "--indent", "4" },
             },
 
@@ -78,7 +72,7 @@ return {
                     "--stdin-filepath",
                     "$FILENAME",
                     "--single-attribute-per-line",
-                    "true", -- 还原你喜欢的多行属性风格
+                    "true",
                     "--print-width",
                     "100",
                     "--tab-width",
@@ -97,7 +91,7 @@ return {
             conform.format({
                 lsp_fallback = true,
                 async = false,
-                timeout_ms = 1000, -- 稍微增加超时时间，防止冷启动时格式化失败
+                timeout_ms = 1000,
             })
         end)
     end,

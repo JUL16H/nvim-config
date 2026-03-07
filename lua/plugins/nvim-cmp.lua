@@ -52,7 +52,7 @@ return {
                 ["<C-f>"] = cmp.mapping.scroll_docs(4),
                 ["<Tab>"] = cmp.mapping(function(fallback)
                     if cmp.visible() then
-                        cmp.confirm({ select = true })
+                        cmp.confirm({ select = true, behavior = cmp.ConfirmBehavior.Insert })
                     elseif luasnip.expand_or_jumpable() then
                         luasnip.expand_or_jump()
                     else
@@ -78,7 +78,7 @@ return {
         cmp.setup.cmdline({ "/", "?" }, {
             mapping = cmp.mapping.preset.cmdline(),
             sources = {
-                { name = "buffer" }, -- 搜索时只补全当前 buffer 内容
+                { name = "buffer" },
             },
         })
 
