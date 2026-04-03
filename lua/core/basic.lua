@@ -63,3 +63,5 @@ vim.api.nvim_create_autocmd("FileType", {
     vim.opt_local.formatoptions:remove({ 'r', 'o', 'c' })
   end,
 })
+
+vim.opt.termguicolors = true

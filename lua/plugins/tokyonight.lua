@@ -3,6 +3,7 @@ return {
     "folke/tokyonight.nvim",
     opts = {
         style = "moon",
+        light_style = "moon",
         on_highlights = function(hl, c)
             hl.Comment = { fg = "#c0c0c0", italic = true }
 

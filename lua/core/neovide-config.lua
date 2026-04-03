@@ -1,4 +1,5 @@
 vim.o.guifont = "JetBrainsMonoNL Nerd Font:h12"
+vim.o.background = "dark"
 vim.g.neovide_remember_window_size = true
 
 vim.g.neovide_padding_top = 20
