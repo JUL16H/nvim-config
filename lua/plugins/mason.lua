@@ -17,12 +17,13 @@ return {
         local enable_vue_plugin = vim.fn.isdirectory(vue_plugin_path) == 1
 
         local function setup(servers)
+            local capabilities = require("blink.cmp").get_lsp_capabilities()
             for server, config in pairs(servers) do
                 config.on_attach = function(client)
                     client.server_capabilities.documentFormattingProvider = false
                     client.server_capabilities.documentRangeFormattingProvider = false
                 end
-
+                config.capabilities = vim.tbl_deep_extend("force", capabilities, config.capabilities or {})
                 local lsp_name = require("mason-lspconfig").get_mappings().package_to_lspconfig[server]
                 if lsp_name then
                     vim.lsp.config(lsp_name, config)
