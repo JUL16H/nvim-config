@@ -1,7 +1,6 @@
--- 算法竞赛测试用例管理工具 (CPH 的完美平替)
 return {
     "xeluxee/competitest.nvim",
-    dependencies = "MunifTanjim/nui.nvim", -- UI 依赖（你之前配 noice 的时候已经装过 nui 了，这里复用）
+    dependencies = "MunifTanjim/nui.nvim",
     cmd = "CompetiTest",
     keys = {
         { "<leader>cr", "<cmd>CompetiTest run<CR>", desc = "CP: Run Testcases (运行测试)" },
@@ -12,27 +11,28 @@ return {
     },
     config = function()
         require("competitest").setup({
-            -- 默认会在当前代码目录下生成一个文件同名的文件夹，专门存 in 和 out 文件
-            local_build = true,
+            -- 1. 将测试用例统一放进 .testcases 隐藏文件夹
+            testcases_directory = ".testcases",
+            -- 依然保留单文件模式，这样 .testcases 文件夹内会整洁地按题目名保存为独立文件
+            testcases_use_single_file = true,
 
             -- 配置浮动窗口 UI
             float_ext_line_hl = false,
             window_position = "center",
 
-            -- 如果你的终端支持真色彩，这里的 Diff 颜色会非常直观
-            testcases_use_single_file = false,
-
-            -- 编译和运行命令配置 (默认已经支持大部分语言，这里显式写出 C++/Rust 防止出锅)
+            -- 2. 将编译的 .out 文件统一定向到系统内存盘 /tmp 下
             compile_command = {
-                c = { exec = "gcc", args = { "-Wall", "$(FNAME)", "-o", "$(FNOEXT)" } },
-                cpp = { exec = "g++", args = { "-Wall", "-O2", "-std=c++17", "$(FNAME)", "-o", "$(FNOEXT)" } },
-                rust = { exec = "rustc", args = { "$(FNAME)" } },
+                c = { exec = "gcc", args = { "-Wall", "$(FNAME)", "-o", "/tmp/$(FNOEXT).out" } },
+                cpp = { exec = "g++", args = { "-Wall", "-O2", "-std=c++17", "$(FNAME)", "-o", "/tmp/$(FNOEXT).out" } },
+                rust = { exec = "rustc", args = { "$(FNAME)", "-o", "/tmp/$(FNOEXT).out" } },
                 python = { exec = "python3", args = { "-m", "py_compile", "$(FNAME)" } },
             },
+
+            -- 3. 运行命令也同步指向 /tmp 目录下的产物
             run_command = {
-                c = { exec = "./$(FNOEXT)" },
-                cpp = { exec = "./$(FNOEXT)" },
-                rust = { exec = "./$(FNOEXT)" },
+                c = { exec = "/tmp/$(FNOEXT).out" },
+                cpp = { exec = "/tmp/$(FNOEXT).out" },
+                rust = { exec = "/tmp/$(FNOEXT).out" },
                 python = { exec = "python3", args = { "$(FNAME)" } },
             },
         })
