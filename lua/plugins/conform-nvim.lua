@@ -1,8 +1,31 @@
--- 格式化工具
+local platform = require("core.platform")
+
+local function find_xml_plugin()
+    local found = vim.fs.find(
+        { "node_modules/@prettier/plugin-xml/src/plugin.js" },
+        { upward = true, path = vim.fn.getcwd() }
+    )
+    return found[1]
+end
+
 return {
     "stevearc/conform.nvim",
     event = { "BufReadPre", "BufNewFile" },
     cmd = { "ConformInfo" },
+    keys = {
+        {
+            "<leader>lf",
+            function()
+                require("conform").format({
+                    lsp_fallback = true,
+                    async = false,
+                    timeout_ms = 1000,
+                })
+            end,
+            mode = { "n", "v" },
+            desc = "Format file or range",
+        },
+    },
     opts = {
         formatters_by_ft = {
             c = { "clang-format" },
@@ -35,7 +58,6 @@ return {
             rustfmt = {
                 prepend_args = { "--config", "tab_spaces=4" },
             },
-
             prettier = {
                 prepend_args = {
                     "--tab-width",
@@ -48,51 +70,39 @@ return {
                     "true",
                 },
             },
-
             black = {
                 prepend_args = { "--line-length", "100" },
             },
-
             isort = {
                 prepend_args = { "--profile", "black", "--line-length", "100" },
             },
-
-            xmlformat = {
-                prepend_args = { "--indent", "4" },
-            },
-
             prettier_xml = {
-                command = "/usr/bin/prettier",
-                args = {
-                    "--parser",
-                    "xml",
-                    "--plugin",
-                    "/usr/lib/node_modules/@prettier/plugin-xml/src/plugin.js",
+                command = platform.first_executable({ "prettier", "prettier.cmd" }) or "prettier",
+                args = function(_, ctx)
+                    local args = {
+                        "--parser",
+                        "xml",
+                        "--stdin-filepath",
+                        ctx.filename,
+                        "--single-attribute-per-line",
+                        "true",
+                        "--print-width",
+                        "100",
+                        "--tab-width",
+                        "4",
+                        "--xml-whitespace-sensitivity",
+                        "ignore",
+                    }
 
-                    "--stdin-filepath",
-                    "$FILENAME",
-                    "--single-attribute-per-line",
-                    "true",
-                    "--print-width",
-                    "100",
-                    "--tab-width",
-                    "4",
-                    "--xml-whitespace-sensitivity",
-                    "ignore",
-                },
+                    local plugin = find_xml_plugin()
+                    if plugin then
+                        table.insert(args, 3, "--plugin")
+                        table.insert(args, 4, plugin)
+                    end
+
+                    return args
+                end,
             },
         },
     },
-    config = function(_, opts)
-        local conform = require("conform")
-        conform.setup(opts)
-
-        vim.keymap.set({ "n", "v" }, "<leader>lf", function()
-            conform.format({
-                lsp_fallback = true,
-                async = false,
-                timeout_ms = 1000,
-            })
-        end)
-    end,
 }

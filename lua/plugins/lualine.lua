@@ -17,7 +17,6 @@ return {
                 statusline = 100,
             },
         },
-        extensions = { "nvim-tree" },
         sections = {
             lualine_a = { "mode" },
             lualine_b = { "branch", "diff", "diagnostics" },

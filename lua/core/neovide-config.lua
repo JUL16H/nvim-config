@@ -1,4 +1,9 @@
-vim.o.guifont = "JetBrainsMonoNL Nerd Font:h12"
+local platform = require("core.platform")
+
+vim.o.guifont = vim.env.NVIM_GUI_FONT
+    or (platform.is_win and "JetBrainsMono Nerd Font:h11")
+    or "JetBrainsMono Nerd Font:h12"
+
 vim.o.background = "dark"
 vim.g.neovide_remember_window_size = true
 

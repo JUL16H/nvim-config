@@ -24,7 +24,7 @@ return {
                 vim.keymap.set(mode, l, r, { buffer = bufnr, desc = desc })
             end
 
-            map("n", "]c", function()
+            vim.keymap.set("n", "]c", function()
                 if vim.wo.diff then
                     return "]c"
                 end
@@ -32,9 +32,9 @@ return {
                     gs.next_hunk()
                 end)
                 return "<Ignore>"
-            end, "Next Hunk (下一处修改)")
+            end, { expr = true, buffer = bufnr, desc = "Next Hunk (下一处修改)" })
 
-            map("n", "[c", function()
+            vim.keymap.set("n", "[c", function()
                 if vim.wo.diff then
                     return "[c"
                 end
@@ -42,7 +42,7 @@ return {
                     gs.prev_hunk()
                 end)
                 return "<Ignore>"
-            end, "Prev Hunk (上一处修改)")
+            end, { expr = true, buffer = bufnr, desc = "Prev Hunk (上一处修改)" })
 
             map("n", "<leader>hs", gs.stage_hunk, "Stage Hunk (暂存当前修改块)")
             map("n", "<leader>hr", gs.reset_hunk, "Reset Hunk (重置当前修改块)")

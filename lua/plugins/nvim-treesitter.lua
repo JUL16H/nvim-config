@@ -1,19 +1,44 @@
 -- 语法树解析及文本对象增强
 return {
     "nvim-treesitter/nvim-treesitter",
-    event = "VeryLazy",
+    event = { "BufReadPost", "BufNewFile" },
+    build = ":TSUpdate",
     main = "nvim-treesitter.configs",
     dependencies = {
         "nvim-treesitter/nvim-treesitter-textobjects",
     },
     opts = {
         ensure_installed = {
-            'c', 'cpp', 'rust', 'python', 'lua', 'vim', 'vimdoc',
-            'javascript', 'typescript', 'java', 'html', 'css',
-            'query', 'markdown', 'markdown_inline', 'c_sharp',
-            'bash', 'json', 'cmake', 'csv', 'cuda', 'git_config',
-            'gitattributes', 'gitcommit', 'gitignore', 'http',
-            'json5', 'jsonc', 'sql', 'vue'
+            "c",
+            "cpp",
+            "rust",
+            "python",
+            "lua",
+            "vim",
+            "vimdoc",
+            "javascript",
+            "typescript",
+            "java",
+            "html",
+            "css",
+            "query",
+            "markdown",
+            "markdown_inline",
+            "c_sharp",
+            "bash",
+            "json",
+            "cmake",
+            "csv",
+            "cuda",
+            "git_config",
+            "gitattributes",
+            "gitcommit",
+            "gitignore",
+            "http",
+            "json5",
+            "jsonc",
+            "sql",
+            "vue",
         },
         highlight = { enable = true },
 
@@ -55,5 +80,5 @@ return {
                 },
             },
         },
-    }
+    },
 }

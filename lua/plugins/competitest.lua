@@ -1,3 +1,14 @@
+local platform = require("core.platform")
+
+local bin_dir = platform.stdpath("cache", "competitest")
+if vim.fn.isdirectory(bin_dir) == 0 then
+    vim.fn.mkdir(bin_dir, "p")
+end
+
+local exe_suffix = platform.is_win and ".exe" or ".out"
+local out_file = platform.join(bin_dir, "$(FNOEXT)" .. exe_suffix)
+local py = platform.first_executable({ "python3", "python" }) or "python"
+
 return {
     "xeluxee/competitest.nvim",
     dependencies = "MunifTanjim/nui.nvim",
@@ -11,29 +22,23 @@ return {
     },
     config = function()
         require("competitest").setup({
-            -- 1. 将测试用例统一放进 .testcases 隐藏文件夹
             testcases_directory = ".testcases",
-            -- 依然保留单文件模式，这样 .testcases 文件夹内会整洁地按题目名保存为独立文件
             testcases_use_single_file = true,
-
-            -- 配置浮动窗口 UI
             float_ext_line_hl = false,
             window_position = "center",
 
-            -- 2. 将编译的 .out 文件统一定向到系统内存盘 /tmp 下
             compile_command = {
-                c = { exec = "gcc", args = { "-Wall", "$(FNAME)", "-o", "/tmp/$(FNOEXT).out" } },
-                cpp = { exec = "g++", args = { "-Wall", "-O2", "-std=c++17", "$(FNAME)", "-o", "/tmp/$(FNOEXT).out" } },
-                rust = { exec = "rustc", args = { "$(FNAME)", "-o", "/tmp/$(FNOEXT).out" } },
-                python = { exec = "python3", args = { "-m", "py_compile", "$(FNAME)" } },
+                c = { exec = "gcc", args = { "-Wall", "$(FNAME)", "-o", out_file } },
+                cpp = { exec = "g++", args = { "-Wall", "-O2", "-std=c++17", "$(FNAME)", "-o", out_file } },
+                rust = { exec = "rustc", args = { "$(FNAME)", "-o", out_file } },
+                python = { exec = py, args = { "-m", "py_compile", "$(FNAME)" } },
             },
 
-            -- 3. 运行命令也同步指向 /tmp 目录下的产物
             run_command = {
-                c = { exec = "/tmp/$(FNOEXT).out" },
-                cpp = { exec = "/tmp/$(FNOEXT).out" },
-                rust = { exec = "/tmp/$(FNOEXT).out" },
-                python = { exec = "python3", args = { "$(FNAME)" } },
+                c = { exec = out_file },
+                cpp = { exec = out_file },
+                rust = { exec = out_file },
+                python = { exec = py, args = { "$(FNAME)" } },
             },
         })
     end,

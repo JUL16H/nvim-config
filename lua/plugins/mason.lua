@@ -7,7 +7,6 @@ return {
         "mason-org/mason-lspconfig.nvim",
     },
     opts = {},
-    lazy = false,
     config = function(_, opts)
         require("mason").setup(opts)
         -- require("mason-registry").refresh()
@@ -19,9 +18,18 @@ return {
         local function setup(servers)
             local capabilities = require("blink.cmp").get_lsp_capabilities()
             for server, config in pairs(servers) do
-                config.on_attach = function(client)
-                    client.server_capabilities.documentFormattingProvider = false
-                    client.server_capabilities.documentRangeFormattingProvider = false
+                config.on_attach = function(client, bufnr)
+                    local disable_formatting_servers = {
+                        vtsls = true,
+                        lua_ls = true,
+                        pyright = true,
+                        clangd = true,
+                    }
+
+                    if disable_formatting_servers[client.name] then
+                        client.server_capabilities.documentFormattingProvider = false
+                        client.server_capabilities.documentRangeFormattingProvider = false
+                    end
                 end
                 config.capabilities = vim.tbl_deep_extend("force", capabilities, config.capabilities or {})
                 local lsp_name = require("mason-lspconfig").get_mappings().package_to_lspconfig[server]
@@ -34,18 +42,15 @@ return {
 
         local servers = {
             ["lua-language-server"] = {
-                cmd = { "/usr/bin/lua-language-server" },
                 settings = { Lua = { diagnostics = { globals = { "vim" } } } },
             },
             ["clangd"] = {
                 cmd = {
                     "clangd",
-                    "-j=8",
                     "--background-index",
                     "--clang-tidy",
                     "--completion-style=detailed",
                     "--function-arg-placeholders=0",
-                    "--compile-commands-dir=build",
                     "--all-scopes-completion",
                 },
             },

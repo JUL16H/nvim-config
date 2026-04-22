@@ -1,6 +1,7 @@
--- 优化fcitx5体验
+local platform = require("core.platform")
+
 return {
     "h-hg/fcitx.nvim",
-    config = function()
-    end,
+    enabled = platform.is_linux and (vim.fn.executable("fcitx5-remote") == 1 or vim.fn.executable("fcitx-remote") == 1),
+    config = function() end,
 }
