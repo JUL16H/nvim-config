@@ -5,5 +5,11 @@ return {
         "nvim-treesitter/nvim-treesitter",
         "nvim-tree/nvim-web-devicons",
     },
-    opts = {},
+    opts = {
+        file_types = { "markdown" },
+
+        ignore = function(buf)
+            return vim.bo[buf].buftype ~= ""
+        end,
+    },
 }

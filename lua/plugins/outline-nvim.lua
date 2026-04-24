@@ -4,7 +4,7 @@ return {
     event = "BufReadPost *",
 
     keys = {
-        { "<leader>o", "<cmd>Outline<CR>", desc = "Toggle Outline" },
+        { "<leader>p", "<cmd>Outline<CR>", desc = "Toggle Outline" },
     },
 
     opts = {

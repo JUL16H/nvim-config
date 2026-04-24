@@ -71,3 +71,14 @@ vim.api.nvim_create_autocmd("FileType", {
         vim.opt_local.formatoptions:remove({ "r", "o", "c" })
     end,
 })
+
+vim.opt.conceallevel = 1
+
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "markdown",
+    callback = function(args)
+        if vim.bo[args.buf].buftype == "nofile" then
+            pcall(vim.treesitter.stop, args.buf)
+        end
+    end,
+})
